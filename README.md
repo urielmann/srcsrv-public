@@ -1,7 +1,7 @@
 <!--
  README.md - General purpose information
 
- Copyright (C) 2023 Uri Mann (abba.mann@gmail.com)
+ Copyright (C) 2023-2024 Uriel Mann (abba.mann@gmail.com)
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,7 @@
     - [Source fetching operation](#source-fetching-operation)
     - [Common diagnostic options](#common-diagnostic-options)
     - [Build diagnostic options](#build-diagnostic-options)
+  - [Setup and environment](#setup-and-environment)
 - [Plugins](#plugins)
   - [Github options](#github-options)
   - [Github environment](#github-environment)
@@ -78,7 +79,7 @@ The option and the value may be separated by a space or equal sign (=) (e.g., bo
 >**-s**, **--srcsrv** - Path to SDK or DDK source indexing directory. Default path is **C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\srcsrv** (Windows 10 **DTfW** or newer required). Download and install [Debugging Tools for Windows](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/debugger-download-tools).  
 
 ### Source fetching operation
->**-c**, **--cache** - Source files cache directory. By default this is user's home (*%USERPROFILE%*) directory. The source files retrieved from the repository will be stored in a subdirectory name **srcsrv**.  
+>**-c**, **--cache** - Source files cache directory. If no value passed as an argument, it defaults to user's home directory (*%USERPROFILE%*). All source files retrieved from the repository will be stored in a subdirectory name **.srcsrv**.  
 >**-v**, **--verify** - Should the script do SSL certificate validation of the remote repository. Possible options are *True*, *False*, *0*, *1* or *None* (default: *None*).  
 >**-e**, **--python** - Path of python executable used to for running the script. The default is **py.exe** (Python launcher).  
 
@@ -89,6 +90,18 @@ The option and the value may be separated by a space or equal sign (=) (e.g., bo
 ### Build diagnostic options
 >**-k**, **--keep** - Keep (don't delete after processing) the **.PDB** stream input file. With this option specified the file is kept in the same directory as the **.PDB**. The file will have the same base name as the **.PDB** file with the extension **.ini** (e.g., *prog.pdb* will have corresponding *prog.ini*).  
 >**-n**, **--dry-run** - The script is run without modifying the **.PDB**. While it is possible to index the same symbols file multiple times it is not recommended. Each operation adds another **srcsrv** stream instead of overwriting the existing one. This option should be used with with **--keep** option when setting for diagnosing source indexing for the first time.  
+
+## Setup and environment
+This package depends on [GitPython](https://gitpython.readthedocs.io/en/stable/) and [requests](https://pypi.org/project/requests/) packages. Both should be automatically installed by **pip** when you install this package. Some additional set up is a perquisite to proper function of this package. This split between setting for [index and fetch](#common-options) operation (see: **--action** argument).  
+[Git SCM](https://git-scm.com/download/win) - The Git software must be installed for both indexing as well as debugging with this package.  
+[Debugging Tools for Windows](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/debugger-download-tools) - Must be installed on the host where the indexing takes place. These tools are already included in any debugger installation so no additional steps are needed.  
+**Python** - This package requires Python version 3.8 or above.
+
+*[GIT_PYTHON_GIT_EXECUTABLE](https://gitpython.readthedocs.io/en/stable/tutorial.html#git-command-debugging-and-customization)* - Add this variable to your environment if **git.exe** is not in the path.  
+*[GIT_PYTHON_TRACE](https://gitpython.readthedocs.io/en/stable/tutorial.html#git-command-debugging-and-customization)* - Add this variable to your environment to allow GitPython to add tracing to the log.  
+*SRCSRV_INI_FILE* - For debugging you can optionally add [SRCSRV.ini file](https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/the-srcsrv-ini-file). See more on [this topic in the advance section](docs/ADVANCE.md#source-indexing-primer).  
+**Plugins environment** - Each of the different repos plugin may require additional environment variables to be set. See the section bellow for more information on specific repos.  
+
 <!-- @TODO:
 >**-m**, **-summary** - Produce indexing summary file path. The file contains to options and stats for the indexing operation.  
 >**-q**, **--level** - Summary level (minimal, normal, detailed or verbose).  

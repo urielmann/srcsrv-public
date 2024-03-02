@@ -33,6 +33,7 @@
   - [PDBStr](#pdbstr)
   - [Logging](#logging)
   - [Breakpoint](#breakpoint)
+  - [Other know issues](#other-know-issues)
 
 # Source Indexing Primer
 
@@ -80,6 +81,7 @@ Both actions can be accomplished by modifying the script invoked by the debugger
 1. By calling the script directly
 2. Forcing the debugger to call a modified script
 3. Forcing *srctool.exe* to call a modified script.  
+
 ## Debugging Tools for Windows srcsrv utilities
 In both cases you'll need to use [*srctool.exe*](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/the-srctool-utility) and [*pdbstr.exe*](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/the-pdbstr-tool) utilities. These executables can be found in the **srcsrv** directory mentioned above.  
 ## Debuggers
@@ -144,3 +146,6 @@ Waiting for debugger to attach
 ```
 ![Dbugging](assets/debugging.gif)
 At that point you can attach and step through the package code as sown in the clip above.
+
+## Other know issues
+Though, the **pip** package manager installs [GitPython](https://gitpython.readthedocs.io/en/stable/) and [requests](https://pypi.org/project/requests/) packages, try to manually update them in cases when you run into exceptions in the python script execution. Run **pip install --upgrade GitPython requests** from a Windows shell command line.  
