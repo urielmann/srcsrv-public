@@ -33,7 +33,7 @@
   - [PDBStr](#pdbstr)
   - [Logging](#logging)
   - [Breakpoint](#breakpoint)
-  - [Other know issues](#other-know-issues)
+  - [Other Know Issues](#other-know-issues)
 
 # Source Indexing Primer
 
@@ -147,5 +147,10 @@ Waiting for debugger to attach
 ![Dbugging](assets/debugging.gif)
 At that point you can attach and step through the package code as sown in the clip above.
 
-## Other know issues
-Though, the **pip** package manager installs [GitPython](https://gitpython.readthedocs.io/en/stable/) and [requests](https://pypi.org/project/requests/) packages, try to manually update them in cases when you run into exceptions in the python script execution. Run **pip install --upgrade GitPython requests** from a Windows shell command line.  
+## Other Know Issues
+- Though, the **pip** package manager installs [GitPython](https://gitpython.readthedocs.io/en/stable/) and [requests](https://pypi.org/project/requests/) packages, try to manually update them in cases when you run into exceptions in the python script execution. Run **pip install --upgrade GitPython requests** from a Windows shell command line.  
+- On some versions of Windows Server, the 64-bit **pdbstr.exe** CLI tool does not execute. The issue was discovered on Server 2016, but it is possible that other version may have similar issue. To run on these platforms, use the 32-bit version by providing **-s**/**--srcsrv** to point to *"C:\Program Files (x86)\Windows Kits\10\Debuggers\x86"* directory. Note that depending on how the **Debugging Tools for Windows** was installed, this location could be different on your system. To diagnose this issue check the python log.  
+- Some versions of srcsrv binaries in **Debugging Tools for Windows**, have a bug which may prevent using environment variables as substitution. For example: If you are using **-u**/**--account** set to *%USERNAME%* in the indexing command, source retrieval could fail when the debugger attempts to fetch the source. Such issue can be diagnose by using **!sym noisy** command in your debugger. It will show that some arguments passed to the list in *srcsrv.main()* are not properly quoted (.e.g., srcsrv.main(['...',...','...'])... - notice the missing single quote in the center argument). It is not clear why source server binary mangle this argument but you can work this issue by redefining the **variables** in **srcsrv.ini** file. For example:  
+&nbsp;&nbsp;&nbsp;&nbsp;**# srcsrv.ini  
+&nbsp;&nbsp;&nbsp;&nbsp;[variables]  
+&nbsp;&nbsp;&nbsp;&nbsp;USERNAME=%USERNAME%**  

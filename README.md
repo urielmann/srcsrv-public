@@ -35,6 +35,7 @@
     - [Source fetching operation](#source-fetching-operation)
     - [Common diagnostic options](#common-diagnostic-options)
     - [Build diagnostic options](#build-diagnostic-options)
+  - [Setup and environment](#setup-and-environment)
 - [Plugins](#plugins)
   - [Github options](#github-options)
   - [Github environment](#github-environment)
@@ -89,6 +90,18 @@ The option and the value may be separated by a space or equal sign (=) (e.g., bo
 ### Build diagnostic options
 >**-k**, **--keep** - Keep (don't delete after processing) the **.PDB** stream input file. With this option specified the file is kept in the same directory as the **.PDB**. The file will have the same base name as the **.PDB** file with the extension **.ini** (e.g., *prog.pdb* will have corresponding *prog.ini*).  
 >**-n**, **--dry-run** - The script is run without modifying the **.PDB**. While it is possible to index the same symbols file multiple times it is not recommended. Each operation adds another **srcsrv** stream instead of overwriting the existing one. This option should be used with with **--keep** option when setting for diagnosing source indexing for the first time.  
+
+## Setup and environment
+This package depends on [GitPython](https://gitpython.readthedocs.io/en/stable/) and [requests](https://pypi.org/project/requests/) packages. Both should be automatically installed by **pip** when you install this package. Some additional set up is a perquisite to proper function of this package. This split between setting for [index and fetch](#common-options) operation (see: **--action** argument).  
+[Git SCM](https://git-scm.com/download/win) - The Git software must be installed for both indexing as well as debugging with this package.  
+[Debugging Tools for Windows](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/debugger-download-tools) - Must be installed on the host where the indexing takes place. These tools are already included in any debugger installation so no additional steps are needed.  
+**Python** - This package requires Python version 3.8 or above.
+
+*[GIT_PYTHON_GIT_EXECUTABLE](https://gitpython.readthedocs.io/en/stable/tutorial.html#git-command-debugging-and-customization)* - Add this variable to your environment if **git.exe** is not in the path.  
+*[GIT_PYTHON_TRACE](https://gitpython.readthedocs.io/en/stable/tutorial.html#git-command-debugging-and-customization)* - Add this variable to your environment to allow GitPython to add tracing to the log.  
+*SRCSRV_INI_FILE* - For debugging you can optionally add [SRCSRV.ini file](https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/the-srcsrv-ini-file). See more on [this topic in the advance section](docs/ADVANCE.md#source-indexing-primer).  
+**Plugins environment** - Each of the different repos plugin may require additional environment variables to be set. See the section bellow for more information on specific repos.  
+
 <!-- @TODO:
 >**-m**, **-summary** - Produce indexing summary file path. The file contains to options and stats for the indexing operation.  
 >**-q**, **--level** - Summary level (minimal, normal, detailed or verbose).  
@@ -100,7 +113,7 @@ Each plugin has unique name of an environment variable containing the authentica
 >2. Tuple (*tuple*) value which in interpreted as HTTPS basic authentication (e.g., *('&lt;account&gt;','&lt;password&gt;')*).  
 >3. The value is missing or *None* to indicate no authentication is required by the remote repository.  
 ## Github options
->**-u**, **--account** - User's account.  
+>**-u**, **--account** - User's account (default: *%USERNAME%*).  
 >**-r**, **--repo** - Github repository name.  
 ## Github environment
 >**SRCSRV_GITHUB_AUTH** - User [token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) This is expected to be the string in the format of *{'Authorization':'Token &lt;token&gt;'}*. The value is evaluated as a python language expression.  
@@ -113,7 +126,7 @@ Each plugin has unique name of an environment variable containing the authentica
 >**SRCSRV_BITBUCKET_AUTH** - User [token](https://developer.atlassian.com/cloud/bitbucket/rest/intro/#authentication_old). This is expected to be the string in the format of *{'Authorization':'Bearer &lt;token&gt;'}*. The value is evaluated as a python language expression.  
 
 ## Gitlab options
->**-u**, **--account** - User's account.  
+>**-u**, **--account** - User's account (default: *%USERNAME%*).  
 >**-t**, **--project-id** - Project id value.  
 <!--
 @TODO:
@@ -129,7 +142,7 @@ Each plugin has unique name of an environment variable containing the authentica
   
 
 ## Codebase options
->**-u**, **--account** - User's account.  
+>**-u**, **--account** - User's account (default: *%USERNAME%*).  
 >**-i**, **--domain** - Codebase repository domain.  
 >**-t**, **--proj-permalink** - Project perma link.  
 >**-r**, **--repo-permalink** - Repository perma link.  
@@ -153,8 +166,9 @@ For indexing operation the script can also be invoked with a response file. Usin
 --plugin srcsrv.plugins.Bitbucket
 ```
 Similar to the command line the option and argument may be separated by space, new line, or equal sign.  
-# External Links
 
+# External Links
+Note that these links may not work properly in the package site (https://pypi.org/project/srcsrv/). Go to https://github.com/urielmann/srcsrv-public for better results.  
 [Srcsrv.doc](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=3&ved=2ahUKEwjO_sL72NHlAhVYnp4KHcdmCdgQFjACegQIAxAC&url=https%3A%2F%2Fcrashopensource.files.wordpress.com%2F2007%2F10%2Fsrcsrv.doc&usg=AOvVaw0ONZV3AtYTB1S8sgPqhTsU)  
 [The SrcTool Utility](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/the-srctool-utility)  
 [Source Indexing is Underused Awesomeness](https://randomascii.wordpress.com/2011/11/11/source-indexing-is-underused-awesomeness/)  
