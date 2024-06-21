@@ -153,4 +153,6 @@ At that point you can attach and step through the package code as sown in the cl
 - Some versions of srcsrv binaries in **Debugging Tools for Windows**, have a bug which may prevent using environment variables as substitution. For example: If you are using **-u**/**--account** set to *%USERNAME%* in the indexing command, source retrieval could fail when the debugger attempts to fetch the source. Such issue can be diagnose by using **!sym noisy** command in your debugger. It will show that some arguments passed to the list in *srcsrv.main()* are not properly quoted (.e.g., srcsrv.main(['...',...','...'])... - notice the missing single quote in the center argument). It is not clear why source server binary mangle this argument but you can work this issue by redefining the **variables** in **srcsrv.ini** file. For example:  
 &nbsp;&nbsp;&nbsp;&nbsp;**# srcsrv.ini  
 &nbsp;&nbsp;&nbsp;&nbsp;[variables]  
-&nbsp;&nbsp;&nbsp;&nbsp;USERNAME=%USERNAME%**  
+&nbsp;&nbsp;&nbsp;&nbsp;USERNAME=<your_repo_username>**  
+Note: The default environment variable for the plugins is **%SRCSRV_USERNAME%**.
+Warning: In srcsrv.ini, setting *SRCSRV_USERNAME=*%SRCSRV_USERNAME%* will cause stack overflow in **srcsrv.dll**.
