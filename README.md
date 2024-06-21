@@ -56,7 +56,7 @@
 The author of this package does not warrant that the functionality contained in the package will meet your requirements or that the operation of the package will be uninterrupted or error-free.  Note: In no event will the author be liable to you for any damages, including any corruption of binaries or PDBs, lost profit, lost savings, lost patience or other incidental or consequential damage.  
 
 With that part out of the way, my goal is to make something that is useful. If you'd like to request additional features, report bugs or provide any other feedback, feel free to reach me.  
-[Uri Mann](mailto:abba.mann@gmail.com)  
+[Uriel Mann](mailto:abba.mann@gmail.com)  
 
 ## Package Description
 
