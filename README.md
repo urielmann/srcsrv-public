@@ -21,6 +21,9 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE.
 -->
+
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/urielmann/srcsrv-public?sort=date)
+
 # Source Indexing  
 
 ## Table of Content
